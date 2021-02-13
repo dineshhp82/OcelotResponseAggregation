@@ -1,0 +1,44 @@
+{
+
+  "Routes": [
+    {
+      "DownstreamPathTemplate": "/api/Customer",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5090
+        }
+      ],
+      "Key": "customer",
+      "UpstreamHttpMethod": [ "Get" ],
+      "UpstreamPathTemplate": "/Customer"
+    },
+    {
+      "DownstreamPathTemplate": "/api/CustomerRating",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5080
+        }
+      ],
+      "UpstreamPathTemplate": "/CustomerRating",
+      "UpstreamHttpMethod": [ "Get" ],
+      "Key": "customer-rating"
+    }
+  ],
+  "Aggregates": [
+    {
+      "RouteKeys": [
+        "customer",
+        "customer-rating"
+      ],
+      "UpstreamPathTemplate": "/CustomerProfile",
+      "Aggregator": "CustomerRatingAggregator"
+    }
+  ],
+  "GlobalConfiguration": {
+    "BaseUrl": "http://localhost:5200"
+  }
+}
